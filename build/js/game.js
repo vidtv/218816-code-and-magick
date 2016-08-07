@@ -395,30 +395,28 @@ window.Game = (function() {
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
-      var canvas = document.querySelector('canvas');
-      var ctx = canvas.getContext('2d');
-      ctx.fillStyle = '#FFFFFF'; // прямоугольник;
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-      ctx.shadowOffsetX = 10;
-      ctx.shadowOffsetY = 10;
-      ctx.fillRect(100, 100, 200, 45);
-      ctx.font = '16px PT Mono'; // текст;
-      ctx.fillStyle = 'black';
-      ctx.shadowOffsetX = 0;
-      ctx.shadowOffsetY = 0;
+      this.ctx.fillStyle = '#FFFFFF'; // прямоугольник;
+      this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+      this.ctx.shadowOffsetX = 10;
+      this.ctx.shadowOffsetY = 10;
+      this.ctx.fillRect(100, 100, 200, 45);
+      this.ctx.font = '16px PT Mono'; // текст;
+      this.ctx.fillStyle = 'black';
+      this.ctx.shadowOffsetX = 0;
+      this.ctx.shadowOffsetY = 0;
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          ctx.fillText('you have won!', 110, 125);
+          this.ctx.fillText('you have won!', 110, 125);
           break;
         case Verdict.FAIL:
-          ctx.fillText('you have failed!', 110, 125);
+          this.ctx.fillText('you have failed!', 110, 125);
           break;
         case Verdict.PAUSE:
-          ctx.fillText('game is on pause!', 110, 125);
+          this.ctx.fillText('game is on pause!', 110, 125);
           break;
         case Verdict.INTRO:
-          ctx.fillText('Welcome to the game!', 105, 115);
-          ctx.fillText('Press Space to start', 105, 135);
+          this.ctx.fillText('Welcome to the game!', 105, 115);
+          this.ctx.fillText('Press Space to start', 105, 135);
           break;
       }
     },
