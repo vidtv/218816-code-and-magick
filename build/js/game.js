@@ -395,18 +395,28 @@ window.Game = (function() {
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      this.ctx.fillStyle = '#FFFFFF'; // прямоугольник;
+      this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+      this.ctx.shadowOffsetX = 10;
+      this.ctx.shadowOffsetY = 10;
+      this.ctx.fillRect(100, 100, 200, 45);
+      this.ctx.font = '16px PT Mono'; // текст;
+      this.ctx.fillStyle = 'black';
+      this.ctx.shadowOffsetX = 0;
+      this.ctx.shadowOffsetY = 0;
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          this.ctx.fillText('you have won!', 110, 125);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          this.ctx.fillText('you have failed!', 110, 125);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          this.ctx.fillText('game is on pause!', 110, 125);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          this.ctx.fillText('Welcome to the game!', 105, 115);
+          this.ctx.fillText('Press Space to start', 105, 135);
           break;
       }
     },
