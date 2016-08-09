@@ -390,33 +390,62 @@ window.Game = (function() {
         window.removeEventListener('keydown', this._pauseListener);
       }
     },
+    /*
+    * Функция разбивки текста по строкам и отрисовки его на экране паузы
+    */
+    wrapText: function(text, maxWidth) {
+      var words = text.split(' ');
+      var countWords = words.length;
+      var line = '';
+      var linesArray = [];
+      var lineHeight = 20;
+      var marginLeft = 105;
+      var marginTop = 115;
+      var numOfLines = 1;
+      for (var i = 0; i < countWords; i++) {
+        var testLine = line + words[i] + ' ';
+        if (this.ctx.measureText(testLine).width > maxWidth) { // если ширина получившейся строки больше, чем ширина прямоугольника
+          linesArray.push(line); // записываем строку в массив
+          line = words[i] + ' ';
+          numOfLines++;
+        } else {
+          line = testLine;
+        }
+        if(i === countWords - 1) { // записываем в массив строк последнюю строку
+          linesArray.push(line);
+        }
+      }
+      this.ctx.fillStyle = '#FFFFFF'; // отрисовка прямоугольника построчно
+      this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+      this.ctx.shadowOffsetX = 10;
+      this.ctx.shadowOffsetY = 10;
+      this.ctx.fillRect(100, 100, maxWidth, numOfLines * lineHeight);
+      this.ctx.font = '16px PT Mono'; // вывод текста построчно
+      this.ctx.fillStyle = 'black';
+      this.ctx.shadowOffsetX = 0;
+      this.ctx.shadowOffsetY = 0;
+      for (i = 0; i < numOfLines; i++) {
+        this.ctx.fillText(linesArray[i], marginLeft, marginTop);
+        marginTop += lineHeight;
+      }
+    },
 
     /**
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
-      this.ctx.fillStyle = '#FFFFFF'; // прямоугольник;
-      this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-      this.ctx.shadowOffsetX = 10;
-      this.ctx.shadowOffsetY = 10;
-      this.ctx.fillRect(100, 100, 200, 45);
-      this.ctx.font = '16px PT Mono'; // текст;
-      this.ctx.fillStyle = 'black';
-      this.ctx.shadowOffsetX = 0;
-      this.ctx.shadowOffsetY = 0;
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          this.ctx.fillText('you have won!', 110, 125);
+          this.wrapText('you have won! eto kruto, you are awesome hhhh 9999 tttttt 6666666', 200);
           break;
         case Verdict.FAIL:
-          this.ctx.fillText('you have failed!', 110, 125);
+          this.wrapText('you have failed!', 200);
           break;
         case Verdict.PAUSE:
-          this.ctx.fillText('game is on pause!', 110, 125);
+          this.wrapText('game is on pause', 200);
           break;
         case Verdict.INTRO:
-          this.ctx.fillText('Welcome to the game!', 105, 115);
-          this.ctx.fillText('Press Space to start', 105, 135);
+          this.wrapText('Welcome to the game! Press Space to start', 200);
           break;
       }
     },
