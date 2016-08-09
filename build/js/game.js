@@ -402,11 +402,14 @@ window.Game = (function() {
       var marginLeft = 105;
       var marginTop = 115;
       var numOfLines = 1;
-      for (var i = 0; i < countWords; i++) {
-        var testLine = line + words[i] + ' ';
-        if (this.ctx.measureText(testLine).width > maxWidth) { // если ширина получившейся строки больше, чем ширина прямоугольника
+      this.ctx.font = '16px PT Mono'; // вывод текста построчно
+      words.forEach(function(word, i) {
+        var canvas = document.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
+        var testLine = line + word + ' ';
+        if (ctx.measureText(testLine).width > maxWidth) { // если ширина получившейся строки больше, чем ширина прямоугольника
           linesArray.push(line); // записываем строку в массив
-          line = words[i] + ' ';
+          line = word + ' ';
           numOfLines++;
         } else {
           line = testLine;
@@ -414,20 +417,21 @@ window.Game = (function() {
         if(i === countWords - 1) { // записываем в массив строк последнюю строку
           linesArray.push(line);
         }
-      }
+      });
       this.ctx.fillStyle = '#FFFFFF'; // отрисовка прямоугольника построчно
       this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
       this.ctx.shadowOffsetX = 10;
       this.ctx.shadowOffsetY = 10;
       this.ctx.fillRect(100, 100, maxWidth, numOfLines * lineHeight);
-      this.ctx.font = '16px PT Mono'; // вывод текста построчно
       this.ctx.fillStyle = 'black';
       this.ctx.shadowOffsetX = 0;
       this.ctx.shadowOffsetY = 0;
-      for (i = 0; i < numOfLines; i++) {
-        this.ctx.fillText(linesArray[i], marginLeft, marginTop);
+      linesArray.forEach(function(string) {
+        var canvas = document.querySelector('canvas');
+        var ctx = canvas.getContext('2d');
+        ctx.fillText(string, marginLeft, marginTop);
         marginTop += lineHeight;
-      }
+      });
     },
 
     /**
@@ -436,7 +440,7 @@ window.Game = (function() {
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          this.wrapText('you have won! eto kruto, you are awesome hhhh 9999 tttttt 6666666', 200);
+          this.wrapText('you have won! its so wonderful, yhuuu!', 200);
           break;
         case Verdict.FAIL:
           this.wrapText('you have failed!', 200);
