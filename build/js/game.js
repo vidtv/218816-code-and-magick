@@ -405,12 +405,12 @@ window.Game = (function() {
       var UPPER_LEFT_CORNER_RECT = 100;
       this.ctx.font = '16px PT Mono';
       words.forEach(function(word) {
-        var testLine = line + word;
+        var testLine = line + (line ? ' ' : '') + word;
         if (ctx.measureText(testLine).width > maxWidth) { // если ширина получившейся строки больше, чем ширина прямоугольника
           linesArray.push(line); // записываем строку в массив
-          line = word + ' ';
+          line = word;
         } else {
-          line = testLine + ' ';
+          line = testLine;
         }
       });
       linesArray.push(line);
