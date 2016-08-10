@@ -393,44 +393,38 @@ window.Game = (function() {
     /*
     * Функция разбивки текста по строкам и отрисовки его на экране паузы
     */
-    wrapText: function(text, maxWidth) {
+    wrapText: function(ctx, text, maxWidth) {
       var words = text.split(' ');
-      var countWords = words.length;
       var line = '';
       var linesArray = [];
-      var lineHeight = 20;
-      var marginLeft = 105;
-      var marginTop = 115;
-      var numOfLines = 1;
-      this.ctx.font = '16px PT Mono'; // вывод текста построчно
-      words.forEach(function(word, i) {
-        var canvas = document.querySelector('canvas');
-        var ctx = canvas.getContext('2d');
-        var testLine = line + word + ' ';
+      var LINE_HEIGHT = 20;
+      var MARGIN_LEFT = 105;
+      var MARGIN_TOP = 115;
+      var SHADOW_OF_RECT = 10;
+      var SHADOW_OF_TEXT = 0;
+      var UPPER_LEFT_CORNER_RECT = 100;
+      this.ctx.font = '16px PT Mono';
+      words.forEach(function(word) {
+        var testLine = line + word;
         if (ctx.measureText(testLine).width > maxWidth) { // если ширина получившейся строки больше, чем ширина прямоугольника
           linesArray.push(line); // записываем строку в массив
           line = word + ' ';
-          numOfLines++;
         } else {
-          line = testLine;
-        }
-        if(i === countWords - 1) { // записываем в массив строк последнюю строку
-          linesArray.push(line);
+          line = testLine + ' ';
         }
       });
+      linesArray.push(line);
       this.ctx.fillStyle = '#FFFFFF'; // отрисовка прямоугольника построчно
       this.ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
-      this.ctx.shadowOffsetX = 10;
-      this.ctx.shadowOffsetY = 10;
-      this.ctx.fillRect(100, 100, maxWidth, numOfLines * lineHeight);
-      this.ctx.fillStyle = 'black';
-      this.ctx.shadowOffsetX = 0;
-      this.ctx.shadowOffsetY = 0;
+      this.ctx.shadowOffsetX = SHADOW_OF_RECT;
+      this.ctx.shadowOffsetY = SHADOW_OF_RECT;
+      this.ctx.fillRect(UPPER_LEFT_CORNER_RECT, UPPER_LEFT_CORNER_RECT, maxWidth, linesArray.length * LINE_HEIGHT);
+      this.ctx.fillStyle = 'black'; // отрисовка текста построчно
+      this.ctx.shadowOffsetX = SHADOW_OF_TEXT;
+      this.ctx.shadowOffsetY = SHADOW_OF_TEXT;
       linesArray.forEach(function(string) {
-        var canvas = document.querySelector('canvas');
-        var ctx = canvas.getContext('2d');
-        ctx.fillText(string, marginLeft, marginTop);
-        marginTop += lineHeight;
+        ctx.fillText(string, MARGIN_LEFT, MARGIN_TOP);
+        MARGIN_TOP += LINE_HEIGHT;
       });
     },
 
@@ -438,18 +432,19 @@ window.Game = (function() {
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var RECT_WIDTH = 200;
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          this.wrapText('you have won! its so wonderful, yhuuu!', 200);
+          this.wrapText(this.ctx, 'you have won! its so wonderful, yhuuu!', RECT_WIDTH);
           break;
         case Verdict.FAIL:
-          this.wrapText('you have failed!', 200);
+          this.wrapText(this.ctx, 'you have failed!', RECT_WIDTH);
           break;
         case Verdict.PAUSE:
-          this.wrapText('game is on pause', 200);
+          this.wrapText(this.ctx, 'game is on pause', RECT_WIDTH);
           break;
         case Verdict.INTRO:
-          this.wrapText('Welcome to the game! Press Space to start', 200);
+          this.wrapText(this.ctx, 'Welcome to the game! Press Space to start', RECT_WIDTH);
           break;
       }
     },
