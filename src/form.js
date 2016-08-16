@@ -28,7 +28,7 @@ window.form = (function() {
   reviewAuthor.addEventListener('input', reviewAuthor.required = true);
 
   /*
-  валидность полей имени и описания, а также всей формы
+  валидность полей имени и описания
   */
   function textValidity(element) {
     return !element.required || Boolean(element.value.trim());
