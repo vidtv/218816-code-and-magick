@@ -7,25 +7,18 @@ window.form = (function() {
   var btnCallSubmitForm = document.querySelector('.reviews-controls');
   var reviewForm = document.querySelector('.review-form');
   var formMarkContainer = reviewForm.querySelector('.review-form-group-mark');
+  var reviewFormMarks = reviewForm.elements.namedItem('review-mark');
   var btnReviewSubmit = reviewForm.querySelector('button');
   var fieldName = reviewForm.querySelector('#review-name');
   var fieldReview = reviewForm.querySelector('#review-text');
   var hintContainer = reviewForm.querySelector('.review-fields');
   var hintName = hintContainer.querySelector('.review-fields-name');
   var hintText = hintContainer.querySelector('.review-fields-text');
-  /*
-  функция, устанавливающая полю "Описание" атрибут required при оценке меньше 3
-  */
-  var reviewTextRequirement = function(event) {
-    fieldReview.required = Number(event.target.value) < MIN_POSITIVE_RATE;
-  };
-  // и обработчик события для этой функции
-  formMarkContainer.addEventListener('change', reviewTextRequirement);
 
   /*
-   обработчик события input, устанавливающий полю "Имя" атрибут required
+   установка полю "Имя" атрибута required
   */
-  fieldName.addEventListener('input', fieldName.required = true);
+  fieldName.required = true;
 
   /*
   функция для валидности поля описания
@@ -35,10 +28,11 @@ window.form = (function() {
   }
 
 /*
-  функция, блокирующая кнопку и удаляющая элементы блока review-fields и сам блок
+  функция валидности формы
 */
-  function reviewLabelsRemover() {
-    var isNameValid = Boolean(fieldName.value);
+  function formValidity() {
+    fieldReview.required = +reviewFormMarks.value < MIN_POSITIVE_RATE;
+    var isNameValid = textValidity(fieldName);
     var isTextValid = textValidity(fieldReview);
     var isFormValid = isNameValid && isTextValid;
     btnReviewSubmit.disabled = !isFormValid; // установка у кнопки атрибута disabled в зависимости от валидности формы
@@ -47,10 +41,10 @@ window.form = (function() {
     hintContainer.classList.toggle('invisible', isFormValid);
   }
   // и обработчики события для этой функции
-  formMarkContainer.addEventListener('change', reviewLabelsRemover);
-  fieldName.addEventListener('input', reviewLabelsRemover);
-  fieldReview.addEventListener('input', reviewLabelsRemover);
-  btnCallSubmitForm.addEventListener('click', reviewLabelsRemover);
+  formMarkContainer.addEventListener('change', formValidity);
+  fieldName.addEventListener('input', formValidity);
+  fieldReview.addEventListener('input', formValidity);
+  btnCallSubmitForm.addEventListener('click', formValidity);
 
   var form = {
     onClose: null,
