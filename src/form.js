@@ -90,8 +90,10 @@ window.form = (function() {
     hintName.classList.toggle('invisible', reviewFormMarks.value < 3); // костылек для исчезновения подсказки "имя" при оценке меньше 3
     hintText.classList.toggle('invisible', reviewFormMarks.value >= 3); // костылек для появления подсказки "отзыв" при оценке меньше 3
   }
- // и обработчик события для этой функции
-  btnCallSubmitForm.addEventListener('click', formCookieData);
+  // и обработчик события для этой функции (если куки не пустые)
+  if (document.cookie) {
+    btnCallSubmitForm.addEventListener('click', formCookieData);
+  }
 
   var form = {
     onClose: null,
