@@ -80,10 +80,8 @@ window.form = (function() {
   функция, скармливающая данные из кук при открытии формы
   */
   function formCookieData() {
-    var cookiesMark = browserCookies.get('mark');
-    var cookiesName = browserCookies.get('username');
-    reviewFormMarks.value = cookiesMark;
-    fieldName.value = cookiesName;
+    reviewFormMarks.value = browserCookies.get('mark');
+    fieldName.value = browserCookies.get('username');
     var isFormValid = reviewFormMarks.value >= 3; // проверка формы на валидность после ее открытия
     btnReviewSubmit.disabled = !isFormValid;
     hintContainer.classList.toggle('invisible', isFormValid); // костылек для исчезновения подсказок в случае валидности формы
