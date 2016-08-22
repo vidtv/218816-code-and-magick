@@ -34,34 +34,41 @@ if('content' in reviewTemplate) {
 /*
 функция отрисовки отзывов
 */
-var getReviewElement = function(data, container) {
+function getReviewElement(data, container) {
   var reviewElement = elementToClone.cloneNode(true);
-  var reviewAuthor = reviewElement.querySelector('.review-author');
   var reviewMark = reviewElement.querySelector('.review-rating');
   var reviewDescription = reviewElement.querySelector('.review-text');
   var IMAGE_SIZE = 124;
+  var IMAGE_LOAD_TIMER = 4000;
   var RATING_STAR_WIDTH = 40;
 
   reviewDescription.textContent = data.description;
-  reviewAuthor.title = data.author.name;
   reviewMark.style.width = RATING_STAR_WIDTH * data.rating + 'px';
 
-  var reviewAuthorImage = new Image();
+  var reviewAuthorImage = new Image(IMAGE_SIZE, IMAGE_SIZE);
+  reviewAuthorImage = reviewElement.querySelector('.review-author');
+  var reviewImageLoadTimeout;
 
   reviewAuthorImage.onload = function() {
-    reviewAuthor.src = data.author.picture;
-    reviewAuthor.style.width = IMAGE_SIZE;
-    reviewAuthor.style.height = IMAGE_SIZE;
+    clearTimeout(reviewImageLoadTimeout);
+    reviewAuthorImage.src = data.author.picture;
+    reviewAuthorImage.title = data.author.name;
   };
 
   reviewAuthorImage.onerror = function() {
-    reviewElement.classList.add('.review-load-failure');
+    reviewAuthorImage.src = '';
+    reviewElement.classList.add('review-load-failure');
   };
-  reviewAuthor.src = data.author.picture;
+
+  reviewAuthorImage.src = data.author.picture;
+
+  reviewImageLoadTimeout = setTimeout(function() {
+    reviewAuthorImage.src = '';
+    reviewElement.classList.add('review-load-failure');
+  }, IMAGE_LOAD_TIMER);
 
   container.appendChild(reviewElement);
-  return reviewElement;
-};
+}
 
 function render(data) {
   data.forEach(function(review) {
