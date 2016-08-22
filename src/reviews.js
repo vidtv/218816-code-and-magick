@@ -49,7 +49,7 @@ var getReviewElement = function(data, container) {
   var reviewAuthorImage = new Image();
 
   reviewAuthorImage.onload = function() {
-    reviewAuthor.src = data.author.image;
+    reviewAuthor.src = data.author.picture;
     reviewAuthor.style.width = IMAGE_SIZE;
     reviewAuthor.style.height = IMAGE_SIZE;
   };
