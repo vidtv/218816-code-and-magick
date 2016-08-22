@@ -1,9 +1,5 @@
 'use strict';
 
-var callbackGetData = function(data) {
-  window.reviews = data;
-};
-
 function load(url, callback) {
   var scriptEl = document.createElement('script');
   var options = url.indexOf('?') !== -1 ? '&' : '?';
@@ -19,8 +15,6 @@ function load(url, callback) {
 }
 
 var HTTP_REQUEST_URL = 'http://localhost:1506/api/reviews';
-
-load(HTTP_REQUEST_URL, callbackGetData);
 
 // прячем блок с фильтром отзывов
 var reviewFilter = document.querySelector('.reviews-filter');
@@ -41,28 +35,32 @@ if('content' in reviewTemplate) {
 функция отрисовки отзывов
 */
 var getReviewElement = function(data, container) {
-  var element = elementToClone.cloneNode(true);
+  var reviewElement = elementToClone.cloneNode(true);
+  var reviewAuthor = reviewElement.querySelector('.review-author');
+  var reviewMark = reviewElement.querySelector('.review-rating');
+  var reviewDescription = reviewElement.querySelector('.review-text');
   var IMAGE_SIZE = 124;
+  var RATING_STAR_WIDTH = 40;
 
-  element.querySelector('.review-author').textContent = data.name;
-  element.querySelector('.review-text').textContent = data.description;
-  element.querySelector('.review-rating').textContent = data.rating;
+  reviewDescription.textContent = data.description;
+  reviewAuthor.title = data.author.name;
+  reviewMark.style.width = RATING_STAR_WIDTH * data.rating + 'px';
 
-  var authorImage = new Image(IMAGE_SIZE, IMAGE_SIZE);
+  var reviewAuthorImage = new Image();
 
-  authorImage.onload = function(evt) {
-    authorImage.src = '\'' + evt.target.src + '\'';
+  reviewAuthorImage.onload = function() {
+    reviewAuthor.src = data.author.image;
+    reviewAuthor.style.width = IMAGE_SIZE;
+    reviewAuthor.style.height = IMAGE_SIZE;
   };
 
-  authorImage.onerror = function() {
-    authorImage.classList.add('.review-load-failure');
+  reviewAuthorImage.onerror = function() {
+    reviewElement.classList.add('.review-load-failure');
   };
-  authorImage.src = data.picture;
+  reviewAuthor.src = data.author.picture;
 
-  container.appendChild(element);
-
-  return element;
-
+  container.appendChild(reviewElement);
+  return reviewElement;
 };
 
 function render(data) {
