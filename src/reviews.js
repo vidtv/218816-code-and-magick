@@ -1,5 +1,4 @@
 'use strict';
-var reviews = [];
 
 var callbackGetData = function(data) {
   window.reviews = data;
@@ -38,6 +37,9 @@ if('content' in reviewTemplate) {
   elementToClone = reviewTemplate.querySelector('.review');
 }
 
+/*
+функция отрисовки отзывов
+*/
 var getReviewElement = function(data, container) {
   var element = elementToClone.cloneNode(true);
   var IMAGE_SIZE = 124;
@@ -45,7 +47,6 @@ var getReviewElement = function(data, container) {
   element.querySelector('.review-author').textContent = data.name;
   element.querySelector('.review-text').textContent = data.description;
   element.querySelector('.review-rating').textContent = data.rating;
-  container.appendChild(element);
 
   var authorImage = new Image(IMAGE_SIZE, IMAGE_SIZE);
 
@@ -58,12 +59,20 @@ var getReviewElement = function(data, container) {
   };
   authorImage.src = data.picture;
 
+  container.appendChild(element);
+
   return element;
+
 };
 
-reviews.forEach(function(review) {
-  getReviewElement(review, reviewsContainer);
-});
+function render(data) {
+  data.forEach(function(review) {
+    getReviewElement(review, reviewsContainer);
+  });
+}
+
+// вызываем функцию отрисовки как коллбек
+load(HTTP_REQUEST_URL, render);
 
 // обратно показываем блок с фильтрами отзывов
 reviewFilter.classList.remove('invisible');
