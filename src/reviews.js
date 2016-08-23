@@ -38,6 +38,7 @@ function getReviewElement(data, container) {
   var reviewElement = elementToClone.cloneNode(true);
   var reviewMark = reviewElement.querySelector('.review-rating');
   var reviewDescription = reviewElement.querySelector('.review-text');
+  var reviewAuthor = reviewElement.querySelector('.review-author');
   var IMAGE_SIZE = 124;
   var IMAGE_LOAD_TIMER = 4000;
   var RATING_STAR_WIDTH = 40;
@@ -46,7 +47,8 @@ function getReviewElement(data, container) {
   reviewMark.style.width = RATING_STAR_WIDTH * data.rating + 'px';
 
   var reviewAuthorImage = new Image(IMAGE_SIZE, IMAGE_SIZE);
-  reviewAuthorImage = reviewElement.querySelector('.review-author');
+  reviewElement.replaceChild(reviewAuthorImage, reviewAuthor);
+  reviewAuthorImage.classList.add('review-author');
   var reviewImageLoadTimeout;
 
   reviewAuthorImage.onload = function() {
@@ -56,7 +58,7 @@ function getReviewElement(data, container) {
   };
 
   reviewAuthorImage.onerror = function() {
-    reviewAuthorImage.src = '';
+    reviewAuthorImage.removeAttribute('src');
     reviewElement.classList.add('review-load-failure');
   };
 
