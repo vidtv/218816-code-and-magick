@@ -58,14 +58,13 @@ function getReviewElement(data, container) {
   };
 
   reviewAuthorImage.onerror = function() {
-    reviewAuthorImage.removeAttribute('src');
     reviewElement.classList.add('review-load-failure');
   };
 
   reviewAuthorImage.src = data.author.picture;
 
   reviewImageLoadTimeout = setTimeout(function() {
-    reviewAuthorImage.src = '';
+    reviewAuthorImage.removeAttribute('src');
     reviewElement.classList.add('review-load-failure');
   }, IMAGE_LOAD_TIMER);
 
