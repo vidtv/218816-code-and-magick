@@ -6,7 +6,6 @@ define([
   'load',
   'get-review-element',
 ], function(load, getReviewElement) {
-
   load(HTTP_REQUEST_URL, function(data) {
     data.forEach(getReviewElement());
   });
