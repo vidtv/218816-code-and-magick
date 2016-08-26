@@ -1,8 +1,6 @@
-'use strict';
+  'use strict';
 
-define(function() {
-  return function() {
-    /**
+  define(function() {  /**
      * @const
      * @type {number}
      */
@@ -736,5 +734,4 @@ define(function() {
     Game.Verdict = Verdict;
 
     return Game;
-  };
-});
+  });
