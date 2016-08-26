@@ -1,9 +1,8 @@
 'use strict';
 
-define(function() {
-  return function() {
+define(['browser-cookies'],
+  function(browsercookies) {
     var MIN_POSITIVE_RATE = 3;
-    var browserCookies = require('browser-cookies');
     var formContainer = document.querySelector('.overlay-container');
     var formCloseButton = document.querySelector('.review-form-close');
     var btnCallSubmitForm = document.querySelector('.reviews-controls');
@@ -71,8 +70,8 @@ define(function() {
       }
 
       var diffBetweenNow = Math.ceil((now - graceBirthday) / MILLISECONDS_IN_DAY);
-      browserCookies.set('mark', reviewFormMarks.value, {expires: diffBetweenNow});
-      browserCookies.set('username', fieldName.value, {expires: diffBetweenNow});
+      browsercookies.set('mark', reviewFormMarks.value, {expires: diffBetweenNow});
+      browsercookies.set('username', fieldName.value, {expires: diffBetweenNow});
     }
     // и обработчик события для этой функции
     reviewForm.addEventListener('submit', cookieWriter);
@@ -81,8 +80,8 @@ define(function() {
     функция, скармливающая данные из кук при открытии формы
     */
     function formCookieData() {
-      reviewFormMarks.value = browserCookies.get('mark');
-      fieldName.value = browserCookies.get('username');
+      reviewFormMarks.value = browsercookies.get('mark');
+      fieldName.value = browsercookies.get('username');
       var isFormValid = reviewFormMarks.value >= 3; // проверка формы на валидность после ее открытия
       btnReviewSubmit.disabled = !isFormValid;
       hintContainer.classList.toggle('invisible', isFormValid); // костылек для исчезновения подсказок в случае валидности формы
@@ -121,5 +120,4 @@ define(function() {
     };
 
     return form;
-  };
-});
+  });
