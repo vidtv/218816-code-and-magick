@@ -5,8 +5,8 @@ var HTTP_REQUEST_URL = 'http://localhost:1506/api/reviews';
 define([
   'load',
   'get-review-element',
-], function(load, getReviewElement) {
+], function(load, renderReview) {
   load(HTTP_REQUEST_URL, function(data) {
-    data.forEach(getReviewElement());
+    data.forEach(renderReview());
   });
 });
