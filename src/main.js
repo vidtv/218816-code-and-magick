@@ -1,8 +1,8 @@
 'use strict';
 
 define([
-  'form',
-  'game',
+  './form',
+  './game',
 ], function(form, Game) {
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
