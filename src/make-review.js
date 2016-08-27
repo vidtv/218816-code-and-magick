@@ -5,8 +5,7 @@ define(function() {
     // прячем блок с фильтром отзывов
     var reviewFilter = document.querySelector('.reviews-filter');
     reviewFilter.classList.add('invisible');
-
-    // добавляем контейнер с отзывами
+      // добавляем контейнер с отзывами
     var reviewsContainer = document.querySelector('.reviews-list');
     var reviewTemplate = document.querySelector('template');
     var elementToClone;
@@ -17,9 +16,6 @@ define(function() {
       elementToClone = reviewTemplate.querySelector('.review');
     }
 
-    /*
-    отрисовка отзывов
-    */
     var reviewElement = elementToClone.cloneNode(true);
     var reviewMark = reviewElement.querySelector('.review-rating');
     var reviewDescription = reviewElement.querySelector('.review-text');
@@ -54,8 +50,6 @@ define(function() {
     }, IMAGE_LOAD_TIMER);
 
     reviewsContainer.appendChild(reviewElement);
-
-    // обратно показываем блок с фильтрами отзывов
     reviewFilter.classList.remove('invisible');
   };
 });
