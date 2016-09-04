@@ -3,7 +3,6 @@
 define(function() {
 
   function Gallery(pictures) {
-    var self = this;
     this.pictures = pictures;
     this.activePicture = 1;
     this.galleryElement = document.querySelector('.overlay-gallery');
@@ -13,18 +12,8 @@ define(function() {
     this.galleryPicturesCount = document.querySelector('.preview-number-total');
     this.galleryClose = document.querySelector('.overlay-gallery-close');
     this.photoGallery = document.querySelector('.photogallery');
-
     this.galleryPicturesCount.innerHTML = pictures.length;
-
-    this.galleryClose.onclick = function() {
-      self.hide();
-    };
   }
-
-  // функция для появления блока фотогалереи
-  Gallery.prototype.makeGalleryVisible = function() {
-    this.galleryElement.classList.remove('invisible');
-  };
 
   // пролистывание фотогалереи влево
   Gallery.prototype.listGalleryLeft = function() {
@@ -44,13 +33,6 @@ define(function() {
   Gallery.prototype.show = function(pictureNumber) {
     var self = this;
 
-    this.photoGallery.onclick = function(event) {
-      self.makeGalleryVisible();
-      if(event.target !== 'img') {
-        return;
-      }
-    };
-
     this.galleryToggleLeft.onclick = function() {
       self.listGalleryLeft();
     };
@@ -59,7 +41,12 @@ define(function() {
       self.listGalleryRight();
     };
 
+    this.galleryClose.onclick = function() {
+      self.hide();
+    };
+
     this.setActivePicture(pictureNumber);
+    this.galleryElement.classList.remove('invisible');
   };
 
   // спрятать фотогалерею
