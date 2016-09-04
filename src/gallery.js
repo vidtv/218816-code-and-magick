@@ -12,6 +12,7 @@ define(function() {
     this.galleryCurrentNumber = document.querySelector('.preview-number-current');
     this.galleryPicturesCount = document.querySelector('.preview-number-total');
     this.galleryClose = document.querySelector('.overlay-gallery-close');
+    this.linksGallery = document.querySelectorAll('.photogallery-image');
 
     this.galleryPicturesCount.innerHTML = pictures.length;
 
@@ -19,8 +20,6 @@ define(function() {
       self.hide();
     };
   }
-
-  var photoGallery = document.querySelector('.photogallery');
 
   // функция для появления блока фотогалереи
   Gallery.prototype.makeGalleryVisible = function() {
@@ -36,7 +35,7 @@ define(function() {
 
   // пролистывание фотогалереи вправо
   Gallery.prototype.listGalleryRight = function() {
-    if(this.activePicture < 6) {
+    if(this.activePicture < this.pictures.length) {
       this.setActivePicture(this.activePicture + 1);
     }
   };
@@ -45,9 +44,11 @@ define(function() {
   Gallery.prototype.show = function(pictureNumber) {
     var self = this;
 
-    photoGallery.onclick = function() {
-      self.makeGalleryVisible();
-    };
+    Array.prototype.forEach.call(this.linksGallery, function(link) {
+      link.addEventListener('click', function() {
+        self.makeGalleryVisible();
+      });
+    });
 
     this.galleryToggleLeft.onclick = function() {
       self.listGalleryLeft();
@@ -65,7 +66,11 @@ define(function() {
     this.galleryElement.classList.add('invisible');
     this.galleryToggleLeft.removeEventListener('click', this.listGalleryLeft);
     this.galleryToggleRight.removeEventListener('click', this.listGalleryRight);
-    this.photoGallery.removeEventListener('click', this.makeGalleryVisible);
+    Array.prototype.forEach.call(this.linksGallery, function(link) {
+      link.removeEventListener('click', function() {
+        self.makeGalleryVisible();
+      });
+    });
   };
 
   // установка текущей просматриваемой фотографии
