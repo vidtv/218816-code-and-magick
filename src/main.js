@@ -3,8 +3,8 @@
 define([
   './form',
   './game',
-  './draw-reviews-list',
-  './gallery'
+  './gallery',
+  './draw-reviews-list'
 ], function(form, Game, Gallery) {
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
@@ -26,10 +26,8 @@ define([
     game.setDeactivated(false);
   };
 
-  var photoGallery = document.querySelector('.photogallery');
-
   // заполняем массив pictures ссылками на изображения в галерее
-  var photos = photoGallery.querySelectorAll('a > img');
+  var photos = document.querySelectorAll('.photogallery > a > img');
   var pictures = [];
 
   for(var i = 0; i < photos.length; i++) {
@@ -38,25 +36,12 @@ define([
 
   // создаем новый объект галереи
   var gallery = new Gallery(pictures);
+  var linksGallery = document.querySelectorAll('.photogallery-image');
 
-  // коллекция ссылок на фото
-  var linksGallery = photoGallery.querySelectorAll('a');
-
-  // коллекция, преобразованная в массив
-  var linksGalleryArray = Array.prototype.slice.call(linksGallery);
-
-  // обработчик клика по изображению(?) в галерее
-  var galleryOnClick = function(evt) {
-    for (i = 0; i < linksGalleryArray.length; i++) {
-      if(evt.target.src === pictures[i]) {
-        gallery.show(i + 1);
-      }
-    }
-  };
-
-  // применяем этот обработчик при клике на изображение (?)
-  linksGalleryArray.forEach(function(galleryImg) {
-    galleryImg.addEventListener('click', galleryOnClick);
+  Array.prototype.forEach.call(linksGallery, function(link, k) {
+    link.addEventListener('click', function() {
+      gallery.show(k + 1);
+    });
   });
 
 });
