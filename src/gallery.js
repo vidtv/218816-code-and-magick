@@ -55,6 +55,7 @@ define(function() {
     this.galleryToggleLeft.onclick = null;
     this.galleryToggleRight.onclick = null;
     this.photoGallery.onclick = null;
+    this.galleryClose.onclick = null;
   };
 
   // установка текущей просматриваемой фотографии
