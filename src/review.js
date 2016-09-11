@@ -1,17 +1,11 @@
 'use strict';
 
 define(function() {
+  var reviewTemplate = document.querySelector('template');
+  var elementToClone = (reviewTemplate || reviewTemplate.content).querySelector('.review');
 
   function Review(data) {
     this.data = data;
-
-    var reviewTemplate = document.querySelector('template');
-    var elementToClone;
-    if('content' in reviewTemplate) {
-      elementToClone = reviewTemplate.content.querySelector('.review');
-    } else {
-      elementToClone = reviewTemplate.querySelector('.review');
-    }
     this.element = elementToClone.cloneNode(true);
   }
 
@@ -21,14 +15,22 @@ define(function() {
     reviewQuiz.classList.add('.review-quiz-answer-active');
   };
 
-  Array.prototype.forEach.call(reviewQuiz, function(quiz) {
-    quiz.addEventListener('click', this.addReviewAnswerActive);
-  });
+  Review.prototype.makeReviewAnswerActive = function() {
+    var self = this;
+    reviewQuiz.onclick = function() {
+      self.addReviewAnswerActive();
+    };
+  };
 
-  Review.prototype.remove = function() {
-    for(var i = 0; i < reviewQuiz.length; i++) {
-      reviewQuiz[i].removeEventListener('click', this.addReviewAnswerActive);
-    }
+  Review.prototype.removeReviewAnswerActive = function() {
+    reviewQuiz.classList.remove('.review-quiz-answer-active');
+  };
+
+  Review.prototype.makeReviewAnswerActive = function() {
+    var self = this;
+    reviewQuiz.onclick = function() {
+      self.removeReviewAnswerActive();
+    };
   };
 
   return Review;
