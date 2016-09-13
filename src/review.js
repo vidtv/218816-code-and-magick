@@ -2,13 +2,13 @@
 
 define(function() {
   var reviewTemplate = document.querySelector('template');
-  //var elementToClone = (reviewTemplate || reviewTemplate.content).querySelector('.review');
-  var elementToClone;
+  var elementToClone = (reviewTemplate.content || reviewTemplate).querySelector('.review');
+  /*var elementToClone;
   if('content' in reviewTemplate) {
     elementToClone = reviewTemplate.content.querySelector('.review');
   } else {
     elementToClone = reviewTemplate.querySelector('.review');
-  }
+  }*/
 
   function Review(data) {
     this.data = data;
