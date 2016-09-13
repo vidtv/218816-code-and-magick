@@ -7,11 +7,8 @@ define(['./review'], function(Review) {
     reviewFilter.classList.add('invisible');
 
     var newReview = new Review(data);
-    var reviewMark = newReview.element.querySelector('.review-rating');
-    var reviewDescription = newReview.element.querySelector('.review-text');
-    var RATING_STAR_WIDTH = 40;
-    reviewDescription.textContent = data.description;
-    reviewMark.style.width = RATING_STAR_WIDTH * data.rating + 'px';
+
+    newReview.addNewReview();
 
     reviewFilter.classList.remove('invisible');
   };

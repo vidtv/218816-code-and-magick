@@ -15,10 +15,12 @@ define(function() {
     this.element = elementToClone.cloneNode(true);
     this.Yes = this.element.querySelector('.review-quiz-answer-yes');
     this.No = this.element.querySelector('.review-quiz-answer-no');
+    this.reviewAuthor = this.element.querySelector('.review-author');
+    this.reviewMark = this.element.querySelector('.review-rating');
+    this.reviewDescription = this.element.querySelector('.review-text');
 
-    this.Yes.addEventListener('click', this.makeReviewAnswerActive);
-    this.No.addEventListener('click', this.makeReviewAnswerActive);
-    //this.reviewQuiz = this.element.querySelector('.review-quiz');
+    this.Yes.addEventListener('click', this.makeReviewAnswerActive.bind(this));
+    this.No.addEventListener('click', this.makeReviewAnswerActive.bind(this));
   }
 
   Review.prototype.makeReviewAnswerActive = function(event) {
@@ -31,36 +33,42 @@ define(function() {
     }
   };
 
+  var RATING_STAR_WIDTH = 40;
   var IMAGE_SIZE = 124;
   var IMAGE_LOAD_TIMER = 4000;
 
-  // добавляем контейнер с отзывами
-  var reviewsContainer = document.querySelector('.reviews-list');
+  // добавляем отзывы
+  Review.prototype.addNewReview = function() {
+    var reviewsContainer = document.querySelector('.reviews-list');
 
-  var reviewAuthor = this.element.querySelector('.review-author');
-  var reviewAuthorImage = new Image(IMAGE_SIZE, IMAGE_SIZE);
-  this.element.replaceChild(reviewAuthorImage, reviewAuthor);
-  reviewAuthorImage.classList.add('review-author');
-  var reviewImageLoadTimeout;
+    this.reviewDescription.textContent = this.data.description;
+    this.reviewMark.style.width = RATING_STAR_WIDTH * this.data.rating + 'px';
 
-  reviewAuthorImage.onload = function() {
-    clearTimeout(reviewImageLoadTimeout);
+    var reviewAuthorImage = new Image(IMAGE_SIZE, IMAGE_SIZE);
+    this.element.replaceChild(reviewAuthorImage, this.reviewAuthor);
+    reviewAuthorImage.classList.add('review-author');
+    var reviewImageLoadTimeout;
+
+    var self = this;
+    reviewAuthorImage.onload = function() {
+      clearTimeout(reviewImageLoadTimeout);
+      reviewAuthorImage.src = self.data.author.picture;
+      reviewAuthorImage.title = self.data.author.name;
+    };
+
+    reviewAuthorImage.onerror = function() {
+      self.element.classList.add('review-load-failure');
+    };
+
     reviewAuthorImage.src = this.data.author.picture;
-    reviewAuthorImage.title = this.data.author.name;
+
+    reviewImageLoadTimeout = setTimeout(function() {
+      reviewAuthorImage.removeAttribute('src');
+      self.element.classList.add('review-load-failure');
+    }, IMAGE_LOAD_TIMER);
+
+    reviewsContainer.appendChild(this.element);
   };
-
-  reviewAuthorImage.onerror = function() {
-    this.element.classList.add('review-load-failure');
-  };
-
-  reviewAuthorImage.src = this.data.author.picture;
-
-  reviewImageLoadTimeout = setTimeout(function() {
-    reviewAuthorImage.removeAttribute('src');
-    this.element.classList.add('review-load-failure');
-  }, IMAGE_LOAD_TIMER);
-
-  reviewsContainer.appendChild(this.element);
 
   return Review;
 });
