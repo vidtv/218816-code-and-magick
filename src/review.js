@@ -3,12 +3,6 @@
 define(function() {
   var reviewTemplate = document.querySelector('template');
   var elementToClone = (reviewTemplate.content || reviewTemplate).querySelector('.review');
-  /*var elementToClone;
-  if('content' in reviewTemplate) {
-    elementToClone = reviewTemplate.content.querySelector('.review');
-  } else {
-    elementToClone = reviewTemplate.querySelector('.review');
-  }*/
 
   function Review(data) {
     this.data = data;
@@ -24,12 +18,14 @@ define(function() {
   }
 
   Review.prototype.makeReviewAnswerActive = function(event) {
-    var AnswerActive = this.element.querySelector('.review-quiz-answer-active');
+    var answerActive = this.element.querySelector('.review-quiz-answer-active');
     if(event.target.classList.contains('review-quiz-answer')) {
-      if(AnswerActive) {
-        AnswerActive.classList.remove('review-quiz-answer-active');
+      if(answerActive) {
+        answerActive.classList.remove('review-quiz-answer-active');
       }
-      event.target.classList.add('review-quiz-answer-active');
+      if(event.target !== answerActive) {
+        event.target.classList.add('review-quiz-answer-active');
+      }
     }
   };
 
