@@ -1,6 +1,7 @@
 'use strict';
 
 define(function() {
+
   return function(url, params, callback) {
     var xhr = new XMLHttpRequest();
 
