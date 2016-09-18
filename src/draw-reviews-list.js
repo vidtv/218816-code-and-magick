@@ -14,6 +14,10 @@ define([
   var moreReviewsButton = document.querySelector('.reviews-controls-more');
 
   var renderingReview = function(data) {
+    var reviews = data;
+    if(reviews.length !== PAGE_SIZE) {
+      moreReviewsButton.classList.add('invisible');
+    }
     data.forEach(renderReview);
   };
 

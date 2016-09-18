@@ -12,5 +12,6 @@ define(function() {
 
     xhr.open('GET', url + '?from=' + params.from + '&to=' + params.to + '&filter=' + params.filter);
     xhr.send();
+    console.log(xhr.responseText);
   };
 });
