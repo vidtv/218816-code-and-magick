@@ -746,8 +746,8 @@
 
     window.addEventListener('scroll', function() {
       var isGameVisible = gameBlock.getBoundingClientRect().bottom > 0;
-      if(!isGameVisible) {
-        if(Date.now() - lastCall >= THROTTLE_TIMEOUT) {
+      if(Date.now() - lastCall >= THROTTLE_TIMEOUT) {
+        if(!isGameVisible) {
           Game.setGameStatus(Game.Verdict.PAUSE);
         }
       }
