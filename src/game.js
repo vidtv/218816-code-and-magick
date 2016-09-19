@@ -731,6 +731,34 @@
       }
     };
 
+    var THROTTLE_TIMEOUT = 100;
+    var cloudsBlock = document.querySelector('.header-clouds');
+    var gameBlock = document.querySelector('.demo');
+
+    var lastCall;
+
+    window.addEventListener('scroll', function() {
+      var areCloudsVisible = cloudsBlock.getBoundingClientRect().bottom > 0;
+      if(Date.now() - lastCall >= THROTTLE_TIMEOUT) {
+        if(areCloudsVisible) {
+          cloudsBlock.style.backgroundPosition = window.pageYOffset + 'px';
+        }
+      }
+      lastCall = Date.now();
+    });
+
+    window.addEventListener('scroll', function() {
+      var isGameVisible = gameBlock.getBoundingClientRect().bottom > 0;
+      if(Date.now() - lastCall >= THROTTLE_TIMEOUT) {
+        if(!isGameVisible) {
+          Game.setGameStatus(Game.Verdict.PAUSE);
+        } else {
+          return;
+        }
+        lastCall = Date.now();
+      }
+    });
+
     Game.Verdict = Verdict;
 
     return Game;
