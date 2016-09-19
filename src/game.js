@@ -236,6 +236,13 @@
 
       return state;
     };
+    /*
+    переменные для метода оптимизации проверки видимости блока demo и постановки игры на паузу
+    */
+    var THROTTLE_TIMEOUT = 100;
+    var cloudsBlock = document.querySelector('.header-clouds');
+    var gameBlock = document.querySelector('.demo');
+    var lastCall;
 
     /**
      * Конструктор объекта Game. Создает canvas, добавляет обработчики событий
@@ -255,6 +262,7 @@
       this._onKeyDown = this._onKeyDown.bind(this);
       this._onKeyUp = this._onKeyUp.bind(this);
       this._pauseListener = this._pauseListener.bind(this);
+      this._parallaxEffect = this._parallaxEffect.bind(this);
 
       this.setDeactivated(false);
     };
@@ -722,37 +730,32 @@
       _initializeGameListeners: function() {
         window.addEventListener('keydown', this._onKeyDown);
         window.addEventListener('keyup', this._onKeyUp);
+        window.addEventListener('scroll', this._parallaxEffect);
       },
 
       /** @private */
       _removeGameListeners: function() {
         window.removeEventListener('keydown', this._onKeyDown);
         window.removeEventListener('keyup', this._onKeyUp);
+      },
+
+      _parallaxEffect: function() {
+        var areCloudsVisible = cloudsBlock.getBoundingClientRect().bottom > 0;
+        var isGameVisible = gameBlock.getBoundingClientRect().bottom > 0;
+        if(areCloudsVisible) {
+          cloudsBlock.style.backgroundPosition = window.pageYOffset + 'px';
+        }
+
+        if(Date.now() - lastCall >= THROTTLE_TIMEOUT) {
+          if(!isGameVisible) {
+            this.setGameStatus(Game.Verdict.PAUSE);
+            window.removeEventListener('scroll', this._parallaxEffect);
+          }
+          window.addEventListener('scroll', this._parallaxEffect);
+        }
+        lastCall = Date.now();
       }
     };
-
-    var THROTTLE_TIMEOUT = 100;
-    var cloudsBlock = document.querySelector('.header-clouds');
-    var gameBlock = document.querySelector('.demo');
-
-    var lastCall;
-
-    window.addEventListener('scroll', function() {
-      var areCloudsVisible = cloudsBlock.getBoundingClientRect().bottom > 0;
-      if(areCloudsVisible) {
-        cloudsBlock.style.backgroundPosition = window.pageYOffset + 'px';
-      }
-    });
-
-    window.addEventListener('scroll', function() {
-      var isGameVisible = gameBlock.getBoundingClientRect().bottom > 0;
-      if(Date.now() - lastCall >= THROTTLE_TIMEOUT) {
-        if(!isGameVisible) {
-          Game.setGameStatus(Game.Verdict.PAUSE);
-        }
-      }
-      lastCall = Date.now();
-    });
 
     Game.Verdict = Verdict;
 
