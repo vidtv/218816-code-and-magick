@@ -40,10 +40,8 @@ define(function() {
 
     this.reviewDescription.textContent = this.data.description;
     this.reviewMark.style.width = RATING_STAR_WIDTH * this.data.rating + 'px';
-    //var self = this;
 
     this.addClassesToReviewImage();
-    //this.addClassesToReviewImage.bind(this);
     this.reviewsContainer.appendChild(this.element);
   };
 
