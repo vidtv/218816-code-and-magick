@@ -16,11 +16,11 @@ define(function() {
     this.reviewMark = this.element.querySelector('.review-rating');
     this.reviewDescription = this.element.querySelector('.review-text');
     this.reviewImage = new Image(IMAGE_SIZE, IMAGE_SIZE);
-    this.yes.addEventListener('click', this.makeReviewAnswerActive.bind(this));
-    this.no.addEventListener('click', this.makeReviewAnswerActive.bind(this));
+    this.yes.addEventListener('click', this.reviewAnswerActiveHandler.bind(this));
+    this.no.addEventListener('click', this.reviewAnswerActiveHandler.bind(this));
   }
 
-  Review.prototype.makeReviewAnswerActive = function(event) {
+  Review.prototype.reviewAnswerActiveHandler = function(event) {
     var answerActive = this.element.querySelector('.review-quiz-answer-active');
     if(answerActive) {
       answerActive.classList.remove('review-quiz-answer-active');

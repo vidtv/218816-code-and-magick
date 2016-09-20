@@ -24,17 +24,17 @@ define(['browser-cookies'],
     /*
     функция для валидности поля описания
     */
-    function textValidity(element) {
+    function setTextValidity(element) {
       return !element.required || Boolean(element.value.trim());
     }
 
   /*
     функция валидности формы
   */
-    function formValidity() {
+    function formValidityHandler() {
       fieldReview.required = +reviewFormMarks.value < MIN_POSITIVE_RATE;
-      var isNameValid = textValidity(fieldName);
-      var isTextValid = textValidity(fieldReview);
+      var isNameValid = setTextValidity(fieldName);
+      var isTextValid = setTextValidity(fieldReview);
       var isFormValid = isNameValid && isTextValid;
       btnReviewSubmit.disabled = !isFormValid; // установка у кнопки атрибута disabled в зависимости от валидности формы
       hintName.classList.toggle('invisible', isNameValid);
@@ -42,15 +42,15 @@ define(['browser-cookies'],
       hintContainer.classList.toggle('invisible', isFormValid);
     }
     // и обработчики события для этой функции
-    formMarkContainer.addEventListener('change', formValidity);
-    fieldName.addEventListener('input', formValidity);
-    fieldReview.addEventListener('input', formValidity);
-    btnCallSubmitForm.addEventListener('click', formValidity);
+    formMarkContainer.addEventListener('change', formValidityHandler);
+    fieldName.addEventListener('input', formValidityHandler);
+    fieldReview.addEventListener('input', formValidityHandler);
+    btnCallSubmitForm.addEventListener('click', formValidityHandler);
 
     /*
     функция записи в cookies
     */
-    function cookieWriter() {
+    function cookieWriteHandler() {
       /*
       вычисление разницы между ДР Грейс Хоппер и сегодняшним днем
       */
@@ -74,12 +74,12 @@ define(['browser-cookies'],
       browsercookies.set('username', fieldName.value, {expires: diffBetweenNow});
     }
     // и обработчик события для этой функции
-    reviewForm.addEventListener('submit', cookieWriter);
+    reviewForm.addEventListener('submit', cookieWriteHandler);
 
     /*
     функция, скармливающая данные из кук при открытии формы
     */
-    function formCookieData() {
+    function formCookieDataHandle() {
       reviewFormMarks.value = browsercookies.get('mark');
       fieldName.value = browsercookies.get('username');
       var isFormValid = reviewFormMarks.value >= 3; // проверка формы на валидность после ее открытия
@@ -90,7 +90,7 @@ define(['browser-cookies'],
     }
     // и обработчик события для этой функции (если куки не пустые)
     if (document.cookie) {
-      btnCallSubmitForm.addEventListener('click', formCookieData);
+      btnCallSubmitForm.addEventListener('click', formCookieDataHandle);
     }
 
     var form = {
