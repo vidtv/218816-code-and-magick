@@ -48,7 +48,7 @@ define([
     if(evt.target.name === 'reviews') {
       localStorage.setItem('filter', evt.target.id);
       activeFilter = localStorage.getItem('filter');
-      changeFilter(activeFilter);
+      changeFilter();
     }
   });
 });
