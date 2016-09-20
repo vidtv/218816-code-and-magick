@@ -41,9 +41,9 @@ define(function() {
   // спрятать фотогалерею
   Gallery.prototype.hide = function() {
     this.galleryElement.classList.add('invisible');
-    this.galleryToggleLeft.removeEventListener('click', this.listGalleryLeft.bind(this));
-    this.galleryToggleRight.removeEventListener('click', this.listGalleryRight.bind(this));
-    this.galleryClose.removeEventListener('click', this.hide.bind(this));
+    this.galleryToggleLeft.removeEventListener('click', this.listGalleryLeft);
+    this.galleryToggleRight.removeEventListener('click', this.listGalleryRight);
+    this.galleryClose.removeEventListener('click', this.hide);
   };
 
   // установка текущей просматриваемой фотографии

@@ -15,13 +15,9 @@ define(function() {
     this.reviewAuthor = this.element.querySelector('.review-author');
     this.reviewMark = this.element.querySelector('.review-rating');
     this.reviewDescription = this.element.querySelector('.review-text');
-
     this.reviewImage = new Image(IMAGE_SIZE, IMAGE_SIZE);
-
     this.yes.addEventListener('click', this.makeReviewAnswerActive.bind(this));
     this.no.addEventListener('click', this.makeReviewAnswerActive.bind(this));
-
-    this.addClassesToReviewImage = this.addClassesToReviewImage.bind(this);
   }
 
   Review.prototype.makeReviewAnswerActive = function(event) {
@@ -46,7 +42,7 @@ define(function() {
   };
 
   Review.prototype.addClassesToReviewImage = function() {
-    function LoadOrNot(notFail) {
+    function loadOrNot(notFail) {
       if(notFail) {
         this.reviewImage.title = this.data.author.name;
       } else {
@@ -54,10 +50,10 @@ define(function() {
         this.element.classList.add('review-load-failure');
       }
     }
-    this.funcCheckLoad(this.data.author.picture, LoadOrNot.bind(this));
+    this.checkImageLoad(this.data.author.picture, loadOrNot.bind(this));
   };
 
-  Review.prototype.funcCheckLoad = function(src, callBack) {
+  Review.prototype.checkImageLoad = function(src, callBack) {
     this.element.replaceChild(this.reviewImage, this.reviewAuthor);
     this.reviewImage.classList.add('review-author');
     this.reviewImage.onload = function() {
