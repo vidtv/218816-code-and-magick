@@ -82,11 +82,11 @@ define(['browser-cookies'],
     function formCookieDataHandle() {
       reviewFormMarks.value = browsercookies.get('mark');
       fieldName.value = browsercookies.get('username');
-      var isFormValid = reviewFormMarks.value >= 3; // проверка формы на валидность после ее открытия
+      var isFormValid = +reviewFormMarks.value >= 3; // проверка формы на валидность после ее открытия
       btnReviewSubmit.disabled = !isFormValid;
       hintContainer.classList.toggle('invisible', isFormValid); // костылек для исчезновения подсказок в случае валидности формы
-      hintName.classList.toggle('invisible', reviewFormMarks.value < 3); // костылек для исчезновения подсказки "имя" при оценке меньше 3
-      hintText.classList.toggle('invisible', reviewFormMarks.value >= 3); // костылек для появления подсказки "отзыв" при оценке меньше 3
+      hintName.classList.toggle('invisible', +reviewFormMarks.value < 3); // костылек для исчезновения подсказки "имя" при оценке меньше 3
+      hintText.classList.toggle('invisible', +reviewFormMarks.value >= 3); // костылек для появления подсказки "отзыв" при оценке меньше 3
     }
     // и обработчик события для этой функции (если куки не пустые)
     if (document.cookie) {
