@@ -250,7 +250,7 @@
      * @param {Element} container
      * @constructor
      */
-    var Game = function(container) {
+    function Game(container) {
       this.container = container;
       this.canvas = document.createElement('canvas');
       this.canvas.width = container.clientWidth;
@@ -265,7 +265,7 @@
       this._parallaxEffect = this._parallaxEffect.bind(this);
 
       this.setDeactivated(false);
-    };
+    }
 
     Game.prototype = {
       /**
