@@ -8,7 +8,7 @@ define([
 ], function(load, renderReview) {
   var PAGE_SIZE = 3;
   var pageNumber = 0;
-  var activeFilter;
+  var activeFilter = localStorage.getItem('filter') || 'reviews-all';
   var allReviews = document.querySelector('.reviews-list');
   var reviewFilter = document.querySelector('.reviews-filter');
   var moreReviewsButton = document.querySelector('.reviews-controls-more');
@@ -29,22 +29,16 @@ define([
       filter: filter
     }, renderingReview);
     moreReviewsButton.classList.remove('invisible');
+    reviewFilterVariants.value = activeFilter;
   }
 
-  function changeFilter(filterID) {
+  function changeFilter() {
     allReviews.innerHTML = '';
-    activeFilter = filterID;
     pageNumber = 0;
     loadReviews(pageNumber, activeFilter);
   }
 
-  function loadReviewsAfterRefresh() {
-    activeFilter = localStorage.getItem('filter') || 'reviews-all';
-    reviewFilterVariants.value = activeFilter;
-    loadReviews(pageNumber, activeFilter);
-  }
-
-  loadReviewsAfterRefresh();
+  loadReviews(pageNumber, activeFilter);
 
   moreReviewsButton.addEventListener('click', function() {
     loadReviews(++pageNumber, activeFilter);
@@ -52,8 +46,9 @@ define([
 
   reviewFilter.addEventListener('change', function(evt) {
     if(evt.target.name === 'reviews') {
-      changeFilter(evt.target.id);
       localStorage.setItem('filter', evt.target.id);
+      activeFilter = localStorage.getItem('filter');
+      changeFilter(activeFilter);
     }
   });
 });
