@@ -20,6 +20,8 @@ define(function() {
 
     this.yes.addEventListener('click', this.makeReviewAnswerActive.bind(this));
     this.no.addEventListener('click', this.makeReviewAnswerActive.bind(this));
+
+    this.addClassesToReviewImage = this.addClassesToReviewImage.bind(this);
   }
 
   Review.prototype.makeReviewAnswerActive = function(event) {
@@ -38,10 +40,10 @@ define(function() {
 
     this.reviewDescription.textContent = this.data.description;
     this.reviewMark.style.width = RATING_STAR_WIDTH * this.data.rating + 'px';
-    var self = this;
+    //var self = this;
 
-    self.addClassesToReviewImage();
-
+    this.addClassesToReviewImage();
+    //this.addClassesToReviewImage.bind(this);
     this.reviewsContainer.appendChild(this.element);
   };
 
