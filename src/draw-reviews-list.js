@@ -14,44 +14,35 @@ define([
   var moreReviewsButton = document.querySelector('.reviews-controls-more');
   var reviewFilterVariants = reviewFilter.elements.namedItem('reviews');
 
-  var renderingReview = function(data) {
+  function renderingReview(data) {
     var reviews = data;
     if(reviews.length !== PAGE_SIZE) {
       moreReviewsButton.classList.add('invisible');
     }
     data.forEach(renderReview);
-  };
+  }
 
-  var loadReviews = function(currentPageNumber, filter) {
+  function loadReviews(currentPageNumber, filter) {
     load(HTTP_REQUEST_URL, {
       from: currentPageNumber * PAGE_SIZE,
       to: currentPageNumber * PAGE_SIZE + PAGE_SIZE,
       filter: filter
     }, renderingReview);
     moreReviewsButton.classList.remove('invisible');
-  };
+  }
 
-  var changeFilter = function(filterID) {
+  function changeFilter(filterID) {
     allReviews.innerHTML = '';
     activeFilter = filterID;
     pageNumber = 0;
     loadReviews(pageNumber, activeFilter);
-  };
+  }
 
-  var setFilterFromLocalStorage = function() {
-    var filterFromStorage = localStorage.getItem('filter');
-    return filterFromStorage;
-  };
-
-  var loadReviewsAfterRefresh = function() {
-    if(localStorage.getItem('filter')) {
-      activeFilter = setFilterFromLocalStorage();
-    } else {
-      activeFilter = 'reviews-all';
-    }
+  function loadReviewsAfterRefresh() {
+    activeFilter = localStorage.getItem('filter') || 'reviews-all';
     reviewFilterVariants.value = activeFilter;
     loadReviews(pageNumber, activeFilter);
-  };
+  }
 
   loadReviewsAfterRefresh();
 
