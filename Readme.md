@@ -1,20 +1,20 @@
-# Личный проект «Код и Магия» [![Build status][travis-image]][travis-url] [![Dependency status][dependency-image]][dependency-url]
+# Личный проект «Код и Магия»
 
 * Студент: [Никита Борисов](https://up.htmlacademy.ru/javascript/6/user/218816).
 * Наставник: Наталия Ёркина
-
----
-
-_Не удаляйте и не обращайте внимание на папки и файлы:_<br>
-_`bin`, `tests`, `.editorconfig`, `.eslintignore`, `.eslintrc`, `.gitignore`, `.travis.yml`, `package.json`._
-
----
 
 <a href="https://htmlacademy.ru/intensive/javascript"><img align="left" width="50" height="50" title="HTML Academy" src="https://up.htmlacademy.ru/static/img/intensive/javascript/logo-for-github.svg"></a>
 
 Репозиторий создан для обучения на интенсивном онлайн‑курсе «[Базовый JavaScript](https://htmlacademy.ru/intensive/javascript)» от [HTML Academy](https://htmlacademy.ru).
 
-[travis-image]: https://travis-ci.org/htmlacademy-javascript/218816-code-and-magick.svg?branch=master
-[travis-url]: https://travis-ci.org/htmlacademy-javascript/218816-code-and-magick
-[dependency-image]: https://david-dm.org/htmlacademy-javascript/218816-code-and-magick.svg?style=flat-square
-[dependency-url]: https://david-dm.org/htmlacademy-javascript/218816-code-and-magick
+В проекте реализованы:
+
+* Работа с графикой на Canvas;
+* Валидация формы отправки отзыва;
+* Работа с cookies;
+* Загрузка списка отзывов с помощью JSONP;
+* Сборка проекта с помощью AMD;
+* Показ фотогалереи со скриншотами из игры;
+* Постраничный вывод отзывов на странице с помощью AJAX и фильтрация отзывов;
+* Эффект параллакса (смещение блока с облаками в зависимости от положения прокрутки);
+* Запись последнего примененного фильтра отзывов в localStorage и применение его после загрузки отзывов по умолчанию. 
